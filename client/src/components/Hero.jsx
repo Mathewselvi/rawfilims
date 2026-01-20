@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { API_URL } from '../config';
 import { useState, useEffect } from 'react';
+import { getImageUrl } from '../utils/imageUtils';
 import './Hero.css';
 
 const Hero = () => {
@@ -14,7 +15,8 @@ const Hero = () => {
                 const res = await axios.get(`${API_URL}/sections`);
                 const heroSection = res.data.find(s => s.section === 'hero');
                 if (heroSection) {
-                    setHeroContent({ type: 'image', imageUrl: heroSection.imageUrl });
+                    // Assuming heroSection directly contains type and imageUrl
+                    setHeroContent(heroSection);
                 }
             } catch (err) {
                 console.error("Error fetching hero content:", err);
@@ -26,7 +28,7 @@ const Hero = () => {
     // Default static image if no dynamic content found
     const defaultBgImage = "https://images.unsplash.com/photo-1519307212971-dd9561667ffb?q=80&w=1287&auto=format&fit=crop";
     const bgImage = heroContent && heroContent.imageUrl
-        ? `http://localhost:5001${heroContent.imageUrl}`
+        ? getImageUrl(heroContent.imageUrl)
         : defaultBgImage;
 
     return (
@@ -57,7 +59,7 @@ const Hero = () => {
                         zIndex: -1
                     }}
                 >
-                    <source src={`http://localhost:5001${heroContent.imageUrl}`} type="video/mp4" />
+                    <source src={getImageUrl(heroContent.imageUrl)} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
             )}

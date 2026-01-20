@@ -3,6 +3,7 @@ import { Mail, Phone, MapPin, Instagram } from 'lucide-react';
 import useScrollReveal from '../hooks/useScrollReveal';
 import axios from 'axios';
 import { API_URL } from '../config';
+import { getImageUrl } from '../utils/imageUtils';
 import { useState, useEffect } from 'react';
 import './Contact.css';
 
@@ -15,7 +16,7 @@ const Contact = () => {
             try {
                 const res = await axios.get(`${API_URL}/sections`);
                 const section = res.data.find(s => s.section === 'contact');
-                if (section) setBgImage(`http://localhost:5001${section.imageUrl}`);
+                if (section) setBgImage(getImageUrl(section.imageUrl));
             } catch (err) {
                 console.error(err);
             }

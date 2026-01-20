@@ -2,6 +2,7 @@ import React from 'react';
 import useScrollReveal from '../hooks/useScrollReveal';
 
 import { API_URL } from '../config';
+import { getImageUrl } from '../utils/imageUtils';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -15,10 +16,10 @@ const About = () => {
             try {
                 const res = await axios.get(`${API_URL}/sections`);
                 const section = res.data.find(s => s.section === 'about');
-                if (section) setBgImage(`http://localhost:5001${section.imageUrl}`);
+                if (section) setBgImage(getImageUrl(section.imageUrl));
 
                 const content = res.data.find(s => s.section === 'about-content');
-                if (content) setContentImage(`http://localhost:5001${content.imageUrl}`);
+                if (content) setContentImage(getImageUrl(content.imageUrl));
             } catch (err) {
                 console.error(err);
             }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Navbar from '../components/Navbar';
 import axios from 'axios';
 import { API_URL } from '../config';
+import { getImageUrl } from '../utils/imageUtils';
 import './Works.css';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -129,7 +130,7 @@ const Works = () => {
                                         {work.type === 'video' ? (
                                             <div className="video-thumbnail">
                                                 <video
-                                                    src={`http://localhost:5001${work.imageUrl}`}
+                                                    src={getImageUrl(work.imageUrl)}
                                                     muted
                                                     loop
                                                     onMouseOver={e => e.target.play()}
@@ -139,7 +140,7 @@ const Works = () => {
                                             </div>
                                         ) : (
                                             <img
-                                                src={`http://localhost:5001${work.imageUrl}`}
+                                                src={getImageUrl(work.imageUrl)}
                                                 alt={work.title}
                                                 onError={(e) => { e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found' }}
                                             />
@@ -174,14 +175,14 @@ const Works = () => {
 
                         {selectedWork.type === 'video' ? (
                             <video
-                                src={`http://localhost:5001${selectedWork.imageUrl}`}
+                                src={getImageUrl(selectedWork.imageUrl)}
                                 controls
                                 autoPlay
                                 className="lightbox-media"
                             />
                         ) : (
                             <img
-                                src={`http://localhost:5001${selectedWork.imageUrl}`}
+                                src={getImageUrl(selectedWork.imageUrl)}
                                 alt={selectedWork.title}
                                 className="lightbox-media"
                             />

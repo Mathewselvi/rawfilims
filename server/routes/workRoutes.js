@@ -27,7 +27,7 @@ router.post('/', upload.array('files'), async (req, res) => {
         for (const file of req.files) {
             // Determine type based on mimetype
             const type = file.mimetype.startsWith('video/') ? 'video' : 'image';
-            const imageUrl = `/uploads/${file.filename}`;
+            const imageUrl = file.path; // Cloudinary URL
 
             const work = new Work({
                 title: req.body.title || 'Untitled', // Use title if provided, else default
@@ -53,16 +53,14 @@ router.delete('/:id', async (req, res) => {
         if (!work) return res.status(404).json({ message: 'Work not found' });
 
         // Delete image file from server
-        // Note: 'work.imageUrl' is like '/uploads/filename.jpg'
-        // We need to resolve it to the filesystem path.
-        // server/uploads/filename.jpg
-        const filename = work.imageUrl.split('/uploads/')[1];
-        const disconnectPath = path.join(__dirname, '..', 'uploads', filename);
+        // Note: With Cloudinary, we should delete using the public_id
+        // const filename = work.imageUrl.split('/uploads/')[1];
+        // const disconnectPath = path.join(__dirname, '..', 'uploads', filename);
 
         // Check if file exists before deleting
-        if (fs.existsSync(disconnectPath)) {
-            fs.unlinkSync(disconnectPath);
-        }
+        // if (fs.existsSync(disconnectPath)) {
+        //     fs.unlinkSync(disconnectPath);
+        // }
 
         await work.deleteOne();
         res.json({ message: 'Work deleted' });

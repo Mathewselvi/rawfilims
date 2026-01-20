@@ -1,32 +1,39 @@
-const multer = require('multer');
-const path = require('path');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
+const dotenv = require('dotenv');
 
-// Configure storage
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../uploads/'));
-    },
-    filename: function (req, file, cb) {
-        // timestamp-filename.ext
-        cb(null, Date.now() + '-' + file.originalname.replace(/\s+/g, '-'));
-    }
-});
+dotenv.config();
 
-// File filter (images and videos)
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith('image/') || file.mimetype.startsWith('video/')) {
-        cb(null, true);
-    } else {
-        cb(new Error('Invalid file type! Please upload an image or video.'), false);
-    }
+// Helper to check if Cloudinary is configured
+const isCloudinaryConfigured = () => {
+    return process.env.CLOUDINARY_CLOUD_NAME &&
+        process.env.CLOUDINARY_API_KEY &&
+        process.env.CLOUDINARY_API_SECRET;
 };
 
-const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter,
-    limits: {
-        fileSize: 1024 * 1024 * 50 // 50MB limit
+// Configure Cloudinary
+if (isCloudinaryConfigured()) {
+    cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET
+    });
+} else {
+    console.warn("Cloudinary not configured! Images will not upload correctly in production.");
+}
+
+// Configure Storage
+// Use Cloudinary if keys are present, otherwise fallback to memory (or temp)
+// But for this use case, we strongly enforce Cloudinary for Vercel
+const storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+        folder: 'rawfilims',
+        allowed_formats: ['jpg', 'jpeg', 'png', 'mp4', 'mov'],
+        resource_type: 'auto' // Allow video and image
     }
 });
+
+const upload = multer({ storage: storage });
 
 module.exports = upload;
