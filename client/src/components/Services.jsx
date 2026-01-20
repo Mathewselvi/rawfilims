@@ -27,7 +27,6 @@ const servicesSet = [
 
 import axios from 'axios';
 import { API_URL } from '../config';
-import { getImageUrl } from '../utils/imageUtils';
 import { useState, useEffect } from 'react';
 
 const Services = () => {
@@ -39,7 +38,7 @@ const Services = () => {
             try {
                 const res = await axios.get(`${API_URL}/sections`);
                 const section = res.data.find(s => s.section === 'services');
-                if (section) setBgImage(getImageUrl(section.imageUrl));
+                if (section) setBgImage(`http://localhost:5001${section.imageUrl}`);
             } catch (err) {
                 console.error(err);
             }

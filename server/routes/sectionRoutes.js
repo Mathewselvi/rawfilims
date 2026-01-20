@@ -23,16 +23,15 @@ router.post('/', upload.single('image'), async (req, res) => {
             return res.status(400).json({ message: 'No image uploaded' });
         }
 
-        const imageUrl = req.file.path; // Cloudinary URL
+        const imageUrl = `/uploads/${req.file.filename}`;
 
         // Check if section exists
         let sectionImage = await SectionImage.findOne({ section });
 
         if (sectionImage) {
             // Delete old image file if it exists (optional, good for cleanup)
-            // For Cloudinary, we would need to delete using the public_id
-            // const oldPath = path.join(__dirname, '..', sectionImage.imageUrl);
-            // if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
+            const oldPath = path.join(__dirname, '..', sectionImage.imageUrl);
+            if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
 
             sectionImage.imageUrl = imageUrl;
             await sectionImage.save();
