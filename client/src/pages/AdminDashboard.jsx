@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { API_URL, API_BASE_URL } from '../config';
 import { Trash2, Plus, LogOut, Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import './AdminDashboard.css';
@@ -179,9 +179,9 @@ const WorksManager = () => {
                 {works.map(work => (
                     <div key={work._id} className="card">
                         {work.type === 'video' ? (
-                            <video src={`http://localhost:5001${work.imageUrl}`} className="card-media" />
+                            <video src={`${API_BASE_URL}${work.imageUrl}`} className="card-media" />
                         ) : (
-                            <img src={`http://localhost:5001${work.imageUrl}`} alt={work.title} className="card-media" />
+                            <img src={`${API_BASE_URL}${work.imageUrl}`} alt={work.title} className="card-media" />
                         )}
                         <div style={{ padding: '1.2rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
@@ -287,7 +287,7 @@ const SiteImagesManager = () => {
     // Helper to get image for section from state
     const getImage = (name) => {
         const s = sections.find(sec => sec.section === name);
-        return s ? `http://localhost:5001${s.imageUrl}` : null;
+        return s ? `${API_BASE_URL}${s.imageUrl}` : null;
     };
 
     return (

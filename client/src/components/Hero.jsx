@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { API_URL } from '../config';
+import { API_URL, API_BASE_URL } from '../config';
 import { useState, useEffect } from 'react';
 import './Hero.css';
 
@@ -27,7 +27,7 @@ const Hero = () => {
     // Default static image if no dynamic content found
     const defaultBgImage = "https://images.unsplash.com/photo-1519307212971-dd9561667ffb?q=80&w=1287&auto=format&fit=crop";
     const bgImage = heroContent && heroContent.imageUrl
-        ? `http://localhost:5001${heroContent.imageUrl}`
+        ? `${API_BASE_URL}${heroContent.imageUrl}`
         : defaultBgImage;
 
     return (
@@ -58,7 +58,7 @@ const Hero = () => {
                         zIndex: -1
                     }}
                 >
-                    <source src={`http://localhost:5001${heroContent.imageUrl}`} type="video/mp4" />
+                    <source src={`${API_BASE_URL}${heroContent.imageUrl}`} type="video/mp4" />
                     Your browser does not support the video tag.
                 </video>
             )}

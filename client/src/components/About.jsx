@@ -1,7 +1,7 @@
 import React from 'react';
 import useScrollReveal from '../hooks/useScrollReveal';
 
-import { API_URL } from '../config';
+import { API_URL, API_BASE_URL } from '../config';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 
@@ -15,10 +15,10 @@ const About = () => {
             try {
                 const res = await axios.get(`${API_URL}/sections`);
                 const section = res.data.find(s => s.section === 'about');
-                if (section) setBgImage(`http://localhost:5001${section.imageUrl}`);
+                if (section) setBgImage(`${API_BASE_URL}${section.imageUrl}`);
 
                 const content = res.data.find(s => s.section === 'about-content');
-                if (content) setContentImage(`http://localhost:5001${content.imageUrl}`);
+                if (content) setContentImage(`${API_BASE_URL}${content.imageUrl}`);
             } catch (err) {
                 console.error(err);
             }
