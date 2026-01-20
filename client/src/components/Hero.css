@@ -1,0 +1,79 @@
+/* Basic overrides for Hero specific spacing if needed, 
+   but largely relying on global parallax classes now */
+
+.hero h1 {
+    font-family: var(--font-serif);
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    color: var(--color-white);
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.hero h1 .highlight {
+    color: var(--color-primary-red);
+    font-style: italic;
+}
+
+.hero p {
+    font-size: 1.25rem;
+    color: var(--color-gray-100);
+    margin-bottom: 2.5rem;
+    letter-spacing: 1px;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+}
+
+.btn-primary {
+    background-color: var(--color-primary-red);
+    color: var(--color-white);
+    padding: 1rem 2.5rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--color-white);
+    color: var(--color-white);
+    padding: 0.9rem 2.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-radius: 4px;
+    transition: all var(--transition-fast);
+}
+
+.btn-outline:hover {
+    background-color: var(--color-white);
+    color: var(--color-black);
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+}
+
+.hero-buttons {
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    /* Allow full width */
+    gap: 1rem;
+    align-items: center;
+}
+
+.btn-primary,
+.btn-outline {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+    padding: 0.9rem 1rem;
+    /* Adjust padding for mobile */
+}
+}
