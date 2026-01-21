@@ -4,16 +4,16 @@ const router = express.Router();
 // POST /api/auth/login
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
-    /*
-    console.log('Login attempt:', req.body);
-    */
 
-    // Simple hardcoded check for now
-    if (username === 'admin' && password === 'admin123') {
+    // Use env vars or fallback to default
+    const validUsername = process.env.ADMIN_USERNAME || 'admin';
+    const validPassword = process.env.ADMIN_PASSWORD || 'admin123';
+
+    if (username === validUsername && password === validPassword) {
         res.json({
             success: true,
             token: 'fake-jwt-token-for-demo', // In a real app, use jsonwebtoken
-            user: { username: 'admin' }
+            user: { username: validUsername }
         });
     } else {
         res.status(401).json({ message: 'Invalid credentials' });
