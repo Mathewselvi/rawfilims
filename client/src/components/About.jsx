@@ -15,10 +15,10 @@ const About = () => {
             try {
                 const res = await axios.get(`${API_URL}/sections`);
                 const section = res.data.find(s => s.section === 'about');
-                if (section) setBgImage(`${API_BASE_URL}${section.imageUrl}`);
+                if (section) setBgImage(section.imageUrl.startsWith('http') ? section.imageUrl : `${API_BASE_URL}${section.imageUrl}`);
 
                 const content = res.data.find(s => s.section === 'about-content');
-                if (content) setContentImage(`${API_BASE_URL}${content.imageUrl}`);
+                if (content) setContentImage(content.imageUrl.startsWith('http') ? content.imageUrl : `${API_BASE_URL}${content.imageUrl}`);
             } catch (err) {
                 console.error(err);
             }

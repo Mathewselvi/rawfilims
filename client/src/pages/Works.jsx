@@ -129,7 +129,7 @@ const Works = () => {
                                         {work.type === 'video' ? (
                                             <div className="video-thumbnail">
                                                 <video
-                                                    src={`${API_BASE_URL}${work.imageUrl}`}
+                                                    src={work.imageUrl.startsWith('http') ? work.imageUrl : `${API_BASE_URL}${work.imageUrl}`}
                                                     muted
                                                     loop
                                                     onMouseOver={e => e.target.play()}
@@ -139,7 +139,7 @@ const Works = () => {
                                             </div>
                                         ) : (
                                             <img
-                                                src={`${API_BASE_URL}${work.imageUrl}`}
+                                                src={work.imageUrl.startsWith('http') ? work.imageUrl : `${API_BASE_URL}${work.imageUrl}`}
                                                 alt={work.title}
                                                 onError={(e) => { e.target.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found' }}
                                             />
@@ -174,14 +174,14 @@ const Works = () => {
 
                         {selectedWork.type === 'video' ? (
                             <video
-                                src={`${API_BASE_URL}${selectedWork.imageUrl}`}
+                                src={selectedWork.imageUrl.startsWith('http') ? selectedWork.imageUrl : `${API_BASE_URL}${selectedWork.imageUrl}`}
                                 controls
                                 autoPlay
                                 className="lightbox-media"
                             />
                         ) : (
                             <img
-                                src={`${API_BASE_URL}${selectedWork.imageUrl}`}
+                                src={selectedWork.imageUrl.startsWith('http') ? selectedWork.imageUrl : `${API_BASE_URL}${selectedWork.imageUrl}`}
                                 alt={selectedWork.title}
                                 className="lightbox-media"
                             />

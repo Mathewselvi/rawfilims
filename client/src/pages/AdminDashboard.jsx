@@ -179,9 +179,9 @@ const WorksManager = () => {
                 {works.map(work => (
                     <div key={work._id} className="card">
                         {work.type === 'video' ? (
-                            <video src={`${API_BASE_URL}${work.imageUrl}`} className="card-media" />
+                            <video src={work.imageUrl.startsWith('http') ? work.imageUrl : `${API_BASE_URL}${work.imageUrl}`} className="card-media" />
                         ) : (
-                            <img src={`${API_BASE_URL}${work.imageUrl}`} alt={work.title} className="card-media" />
+                            <img src={work.imageUrl.startsWith('http') ? work.imageUrl : `${API_BASE_URL}${work.imageUrl}`} alt={work.title} className="card-media" />
                         )}
                         <div style={{ padding: '1.2rem' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
@@ -287,7 +287,8 @@ const SiteImagesManager = () => {
     // Helper to get image for section from state
     const getImage = (name) => {
         const s = sections.find(sec => sec.section === name);
-        return s ? `${API_BASE_URL}${s.imageUrl}` : null;
+        if (!s) return null;
+        return s.imageUrl.startsWith('http') ? s.imageUrl : `${API_BASE_URL}${s.imageUrl}`;
     };
 
     return (
