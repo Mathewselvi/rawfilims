@@ -38,11 +38,6 @@ app.use('/api/sections', require('./routes/sectionRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
 
 // Start Server
-if (require.main === module) {
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-}
-
-module.exports = app;
-
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
