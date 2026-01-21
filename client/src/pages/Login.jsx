@@ -20,7 +20,9 @@ const Login = () => {
                 navigate('/admin');
             }
         } catch (err) {
-            setError('Invalid credentials');
+            console.error('Login Error:', err);
+            const msg = err.response?.data?.message || err.message || 'Login failed';
+            setError(msg);
         }
     };
 

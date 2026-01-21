@@ -11,6 +11,25 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Middleware
+// Manual CORS handling for Vercel
+app.use((req, res, next) => {
+  const origin = req.headers.origin;
+  // Allow all origins or check specific ones
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+  // Handle preflight directly
+  if (req.method === 'OPTIONS') {
+    return res.status(200).end();
+  }
+
+  next();
+});
+
 app.use(cors({
   origin: true,
   credentials: true,
