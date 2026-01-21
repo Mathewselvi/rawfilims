@@ -17,6 +17,15 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
+
+// Explicit preflight handling
+app.options('*', cors());
+
+// Debug Middleware to log requests (Optional, remove in prod if noisy)
+app.use((req, res, next) => {
+  console.log(`[${req.method}] ${req.url} - Origin: ${req.headers.origin}`);
+  next();
+});
 app.use(express.json());
 
 // Serve static files (uploads)
