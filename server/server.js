@@ -32,10 +32,20 @@ app.get('/', (req, res) => {
 });
 
 // Routes
+// Routes
 app.use('/api/works', require('./routes/workRoutes'));
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/sections', require('./routes/sectionRoutes'));
 app.use('/api/categories', require('./routes/categoryRoutes'));
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    message: err.message || 'Something went wrong!',
+    error: process.env.NODE_ENV === 'production' ? {} : err
+  });
+});
 
 // Start Server
 app.listen(PORT, () => {

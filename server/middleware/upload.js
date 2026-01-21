@@ -6,6 +6,12 @@ const path = require('path');
 
 dotenv.config();
 
+// Verify config
+console.log("Cloudinary Config Check:");
+console.log("Cloud Name:", process.env.CLOUDINARY_CLOUD_NAME ? "Set" : "Missing");
+console.log("API Key:", process.env.CLOUDINARY_API_KEY ? "Set" : "Missing");
+console.log("API Secret:", process.env.CLOUDINARY_API_SECRET ? "Set" : "Missing");
+
 // Configure Cloudinary
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -17,12 +23,10 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: async (req, file) => {
-        // Determine resource type based on mimetype
-        const isVideo = file.mimetype.startsWith('video/');
         return {
             folder: 'rawfilims',
-            resource_type: isVideo ? 'video' : 'image',
-            public_id: Date.now() + '-' + file.originalname.replace(/\s+/g, '-').split('.')[0], // custom filename without extension
+            resource_type: 'auto', // Handle images/videos automatically
+            public_id: file.originalname.split('.')[0] + '-' + Date.now(), // Unique filename
         };
     },
 });
@@ -30,7 +34,7 @@ const storage = new CloudinaryStorage({
 const upload = multer({
     storage: storage,
     limits: {
-        fileSize: 1024 * 1024 * 100 // 100MB limit (increased for videos)
+        fileSize: 1024 * 1024 * 100 // 100MB limit
     }
 });
 
